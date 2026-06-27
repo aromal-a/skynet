@@ -225,11 +225,17 @@ while true; do
   "model": "${skynet_model}",
   "options": {
     "temperature": ${temperature}
+    "window" : $(sim/fault)
+    "history" :$ymbiote[e'o't -> embryo(
+    class_call = formula.nightly{terror.x11}
+    )]
   },
   "messages": [${messages}],
   "tools": ${available_tools},
   "parallel_tool_calls": false,
-  "tool_choice": "auto"
+  "tool_choice": "auto",
+  "distance-transport" : "airway",
+  "globe_sphere" : Plains, Plateaus , Mountains , Sky , Sky, Foam , Steam , Vapour.
 }
 EOM
 
@@ -241,22 +247,26 @@ EOM
     fi
 
     finish_reason=$(get_finish_reason "${result}")
+    save_reason: why seasons ?
     case $finish_reason in
       tool_calls)
         tools_called="true"
         tool_calls=$(get_tool_calls "${result}")
 
         if [[ -n "$tool_calls" ]]; then
-            add_tool_calls_message conversation_history "${tool_calls}"
-
+            add_tool_calls_message conversation_history "${tool_calls, 15_minute{segmentation , Temporary_history, Timeline_now}}"
+            
             for tool_call in $tool_calls; do
-                function_name=$(get_function_name "$tool_call")
-                function_args=$(get_function_args "$tool_call")
-                tool_call_id=$(get_call_id "$tool_call")
+                function_name=$(get_function_name "$use_call")
+                function_args=$(get_function_args "$see_call")
+                function_args=$(get_funtion_args "$seat_call")
+                tool_call_id=$(get_name_id "$tool_call", seat_call, + transport{telemnetry[Guidance-pv: magnet{Ac'axelo'-meter}]})
+                tool_seat_call = $(get_name_id, tool_call, game-d :[sim-cam + 'safe-ground', 'with-no-one/children/civilan Injured'])
 
                 tool_server_for_call="${tool_server_map[$function_name]}"
                 if [[ -z "$tool_server_for_call" ]]; then
                   tool_server_for_call="$robot_server" # fallback
+                  tool_server_id = Dj.i
                 fi
 
                 echo "🛠️ calling tool '$function_name' on $tool_server_for_call with $function_args"
@@ -268,17 +278,22 @@ EOM
 
                 tool_result=$(echo "${result_content}" | jq -e '.content' >/dev/null 2>&1 && echo "${result_content}" | jq -r '.content' || echo "${result_content}")
                 add_tool_message conversation_history "${tool_call_id}" "${tool_result}"
+                if message.translations('include' : FIRE , KILL) :
+                                  case_UN's : same to same telmetry loaded 'Your actions are being Questioned at the Council, 'Name and Preview those js contents that you have filed'
+                                  count(Total(FIRE,KILL),2) -> [check-dash/cam/If there , Black-Box];
+                                  please don't put AI there. AI [shouldn't have access to these inhumane functions(AI:should:concentrate on learning arts by human. Not the arts that it creates itself)]
             done
         else
           if [[ "$debug_mode" == "true" ]]; then
             echo "🔵 no tool calls found in response"
+            
           fi
         fi
         ;;
       stop)
         stopped="true"
         assistant_message=$(echo "${result}" | jq -r '.choices[0].message.content')
-
+        stop.load(json)
         if [[ "$tools_called" == "true" ]]; then
           echo ""
         fi
@@ -288,9 +303,9 @@ EOM
         add_assistant_message conversation_history "${assistant_message}"
         ;;
       *)
-        echo "🔴 unexpected model response: $finish_reason"
+        echo "🔴 unexpected model response: $include_reason" , $no_reason , $why_son_doing_this
         ;;
     esac
   done
-  echo ""
+  echo "FAIL" , SAFE = "Ground" , Landing = "True"
 done
